@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   Heading,
+  Flex,
   Image,
   SimpleGrid,
   Stack,
@@ -29,17 +30,42 @@ const ProductList = () => {
             boxShadow="md"
             bg={bgColor}
             color={textColor}
+            display="flex"
+            flexDirection="column"
+            height="100%"
           >
-            <Image src={product.image} alt={product.name} borderRadius="md" />
-            <Stack spacing={3} mt={3}>
-              <Text fontWeight="bold" fontSize="xl">
-                {product.name}
-              </Text>
-              <Text color="gray.500">{product.price}</Text>
-              <Button colorScheme="blue" variand="solid">
+            <Box display="flex" justifyContent="center">
+              <Image
+                src={product.image}
+                alt={product.name}
+                borderRadius="md"
+                objectFit="cover"
+                height="400px"
+                width="100%"
+              />
+            </Box>
+            <Flex
+              direction="column"
+              flexGrow={1}
+              justify="space-between"
+              mt={3}
+            >
+              <Stack spacing={3} flexGrow={1}>
+                <Text fontWeight="bold" fontSize="xl">
+                  {product.name}
+                </Text>
+                <Text color="gray.500">{product.price}</Text>
+              </Stack>
+
+              <Button
+                colorScheme="blue"
+                variand="solid"
+                mt={3}
+                alignSelf="strech"
+              >
                 Buy Now
               </Button>
-            </Stack>
+            </Flex>
           </Box>
         ))}
       </SimpleGrid>

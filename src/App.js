@@ -1,9 +1,9 @@
 import {
   Box,
-  Button,
   useColorMode,
 } from "@chakra-ui/react";
 
+import Navbar from "./components/Navbar";
 import ProductList from "./components/ProductList";
 
 const App = () => {
@@ -11,9 +11,7 @@ const App = () => {
 
   return (
     <Box p={4} bg={colorMode === "dark" ? "gray.900" : "gray.100"} minH="100vh">
-      <Button onClick={toggleColorMode} mb={4}>
-        {colorMode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
-      </Button>
+      <Navbar />
       <ProductList />
     </Box>
   );

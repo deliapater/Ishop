@@ -9,7 +9,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import products from "./data/products";
+import products from "../data/products";
 
 const ProductList = () => {
   const bgColor = useColorModeValue("white, gray.700");

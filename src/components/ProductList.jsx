@@ -18,7 +18,7 @@ const ProductList = () => {
   return (
     <Box p={5}>
       <Heading mb={6} textAlign="center">
-        Product List
+        Catalogue
       </Heading>
       <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
         {products.map((product) => (

@@ -8,12 +8,27 @@ import {
   Stack,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
+import { useCart } from '../context/CartContext';
 import products from "../data/products";
 
 const ProductList = () => {
-  const bgColor = useColorModeValue("white, gray.700");
+  const bgColor = useColorModeValue("white", "gray.700");
   const textColor = useColorModeValue("black", "white");
+  const { addToCart } = useCart();
+  const toast = useToast();
+
+  const handleAddToCart = (product) => {
+    addToCart(product);
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart`,
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
 
   return (
     <Box p={5}>
@@ -59,11 +74,11 @@ const ProductList = () => {
 
               <Button
                 colorScheme="blue"
-                variand="solid"
+                variant="solid"
                 mt={3}
-                alignSelf="strech"
+                onClick={() => handleAddToCart(product)}
               >
-                Buy Now
+                Add to Cart
               </Button>
             </Flex>
           </Box>

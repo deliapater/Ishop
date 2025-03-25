@@ -1,19 +1,17 @@
-import {
-  Box,
-  useColorMode,
-} from "@chakra-ui/react";
+import { ChakraProvider } from '@chakra-ui/react';
+import { CartProvider } from './context/CartContext';
+import Header from './components/Header';
+import ProductList from './components/ProductList';
+import theme from './theme';
 
-import Navbar from "./components/Navbar";
-import ProductList from "./components/ProductList";
-
-const App = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-
+function App() {
   return (
-    <Box p={4} bg={colorMode === "dark" ? "gray.900" : "gray.100"} minH="100vh">
-      <Navbar />
-      <ProductList />
-    </Box>
+    <ChakraProvider theme={theme}>
+      <CartProvider>
+        <Header />
+        <ProductList />
+      </CartProvider>
+    </ChakraProvider>
   );
 }
 

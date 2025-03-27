@@ -6,25 +6,71 @@ import {
   useDisclosure,
   Text,
   Circle,
+  HStack,
+  VStack,
+  Drawer,
+  DrawerBody,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  Button,
 } from '@chakra-ui/react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 import CartDrawer from './CartDrawer';
 
 const Header = () => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isCartOpen, onOpen: onCartOpen, onClose: onCartClose } = useDisclosure();
+  const { isOpen: isMenuOpen, onOpen: onMenuOpen, onClose: onMenuClose } = useDisclosure();
   const { cartItemsCount } = useCart();
+  const navigate = useNavigate();
+
+  const menuItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Products', path: '/' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
+  ];
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    onMenuClose();
+  };
 
   return (
     <>
-      <Box px={4} py={4} shadow="md">
+      <Box px={4} py={4} shadow="md" position="sticky" top={0} bg={colorMode === 'light' ? 'white' : 'gray.800'} zIndex={1000}>
         <Flex justify="space-between" align="center" maxW="container.xl" mx="auto">
-          <Text fontSize="2xl" fontWeight="bold">
-            My Shop
-          </Text>
-          <Flex align="center" gap={4}>
+          <HStack spacing={4}>
+            <IconButton
+              display={{ base: 'flex', md: 'none' }}
+              icon={<HamburgerIcon />}
+              onClick={onMenuOpen}
+              variant="ghost"
+              aria-label="Open menu"
+            />
+            <Text fontSize="2xl" fontWeight="bold" cursor="pointer" onClick={() => navigate('/')}>
+              IShop
+            </Text>
+          </HStack>
+
+          <HStack spacing={4} display={{ base: 'none', md: 'flex' }}>
+            {menuItems.map((item) => (
+              <Button
+                key={item.name}
+                variant="ghost"
+                onClick={() => handleNavigation(item.path)}
+              >
+                {item.name}
+              </Button>
+            ))}
+          </HStack>
+
+          <HStack spacing={4}>
             <IconButton
               icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               onClick={toggleColorMode}
@@ -33,7 +79,7 @@ const Header = () => {
             <Box position="relative">
               <IconButton
                 icon={<FaShoppingCart />}
-                onClick={onOpen}
+                onClick={onCartOpen}
                 variant="ghost"
                 fontSize="20px"
               />
@@ -51,10 +97,39 @@ const Header = () => {
                 </Circle>
               )}
             </Box>
-          </Flex>
+          </HStack>
         </Flex>
       </Box>
-      <CartDrawer isOpen={isOpen} onClose={onClose} />
+
+      {/* Mobile Menu Drawer */}
+      <Drawer
+        isOpen={isMenuOpen}
+        placement="left"
+        onClose={onMenuClose}
+      >
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Menu</DrawerHeader>
+          <DrawerBody>
+            <VStack spacing={4} align="stretch">
+              {menuItems.map((item) => (
+                <Button
+                  key={item.name}
+                  variant="ghost"
+                  justifyContent="flex-start"
+                  onClick={() => handleNavigation(item.path)}
+                >
+                  {item.name}
+                </Button>
+              ))}
+            </VStack>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={isCartOpen} onClose={onCartClose} />
     </>
   );
 };

@@ -10,16 +10,19 @@ import {
   useColorModeValue,
   useToast,
 } from "@chakra-ui/react";
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import products from "../data/products";
 
 const ProductList = () => {
+  const navigate = useNavigate();
   const bgColor = useColorModeValue("white", "gray.700");
   const textColor = useColorModeValue("black", "white");
   const { addToCart } = useCart();
   const toast = useToast();
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation();
     addToCart(product);
     toast({
       title: "Added to cart",
@@ -48,6 +51,13 @@ const ProductList = () => {
             display="flex"
             flexDirection="column"
             height="100%"
+            cursor="pointer"
+            onClick={() => navigate(`/product/${product.id}`)}
+            _hover={{
+              transform: 'translateY(-4px)',
+              boxShadow: 'lg',
+              transition: 'all 0.2s ease-in-out'
+            }}
           >
             <Box display="flex" justifyContent="center">
               <Image
@@ -76,7 +86,7 @@ const ProductList = () => {
                 colorScheme="blue"
                 variant="solid"
                 mt={3}
-                onClick={() => handleAddToCart(product)}
+                onClick={(e) => handleAddToCart(e, product)}
               >
                 Add to Cart
               </Button>

@@ -4,28 +4,24 @@ import {
   Container,
   Flex,
   Heading,
-  Image,
   Stack,
   Text,
   useColorModeValue,
-  useToast,
   IconButton,
   Badge,
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
 import products from '../data/products';
+import Product from './Product';
 
 const ProductDetails = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
-  const toast = useToast();
-
-  const product = products.find(p => p.id === parseInt(productId));
   const bgColor = useColorModeValue('white', 'gray.700');
   const textColor = useColorModeValue('gray.600', 'gray.200');
+
+  const product = products.find(p => p.id === parseInt(productId));
 
   if (!product) {
     return (
@@ -37,17 +33,6 @@ const ProductDetails = () => {
       </Container>
     );
   }
-
-  const handleAddToCart = () => {
-    addToCart(product);
-    toast({
-      title: 'Added to cart',
-      description: `${product.name} has been added to your cart`,
-      status: 'success',
-      duration: 2000,
-      isClosable: true,
-    });
-  };
 
   return (
     <Container maxW="container.xl" py={10}>
@@ -66,13 +51,11 @@ const ProductDetails = () => {
         boxShadow="md"
       >
         <Box flex={1}>
-          <Image
-            src={product.image}
-            alt={product.name}
-            borderRadius="lg"
-            objectFit="cover"
-            width="100%"
-            height="500px"
+          <Product
+            product={product}
+            variant="detail"
+            imageHeight="500px"
+            showAddToCart={false}
           />
         </Box>
         <Stack flex={1} spacing={6}>
@@ -111,14 +94,12 @@ const ProductDetails = () => {
             </Stack>
           </Box>
 
-          <Button
-            colorScheme="blue"
-            size="lg"
-            onClick={handleAddToCart}
-            mt={4}
-          >
-            Add to Cart
-          </Button>
+          <Product
+            product={product}
+            variant="detail"
+            showAddToCart={true}
+            imageHeight="0"
+          />
         </Stack>
       </Flex>
     </Container>

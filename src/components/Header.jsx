@@ -19,6 +19,7 @@ import {
 import { MoonIcon, SunIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import CartDrawer from './CartDrawer';
 
@@ -27,7 +28,13 @@ const Header = () => {
   const { isOpen: isCartOpen, onOpen: onCartOpen, onClose: onCartClose } = useDisclosure();
   const { isOpen: isMenuOpen, onOpen: onMenuOpen, onClose: onMenuClose } = useDisclosure();
   const { cartItemsCount } = useCart();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   const menuItems = [
     { name: 'Home', path: '/' },
@@ -97,6 +104,11 @@ const Header = () => {
                 </Circle>
               )}
             </Box>
+            {user ? (
+              <Button onClick={handleLogout} colorScheme="red">Logout</Button>
+            ) : (
+              <Button onClick={() => navigate('/login')} colorScheme="blue">Login</Button>
+            )}
           </HStack>
         </Flex>
       </Box>
@@ -123,6 +135,11 @@ const Header = () => {
                   {item.name}
                 </Button>
               ))}
+              {user ? (
+                <Button onClick={handleLogout} colorScheme="red">Logout</Button>
+              ) : (
+                <Button onClick={() => navigate('/login')} colorScheme="blue">Login</Button>
+              )}
             </VStack>
           </DrawerBody>
         </DrawerContent>

@@ -7,6 +7,7 @@ import ProductList from './components/ProductList';
 import ProductDetails from './components/ProductDetails';
 import Footer from './components/Footer';
 import Login from './components/Login';
+import Checkout from './components/Checkout';
 import theme from './theme';
 import { Box } from '@chakra-ui/react';
 
@@ -23,6 +24,7 @@ function App() {
                   <Route path="/" element={<ProductList />} />
                   <Route path="/product/:productId" element={<ProductDetails />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/checkout" element={<Checkout />} />
                 </Routes>
               </Box>
               <Footer />

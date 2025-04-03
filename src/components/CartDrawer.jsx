@@ -17,10 +17,12 @@ import {
 } from '@chakra-ui/react';
 import { AddIcon, MinusIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useCart } from '../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 
 const CartDrawer = ({ isOpen, onClose }) => {
   const { cart, removeFromCart, updateQuantity, cartTotal } = useCart();
   const bgColor = useColorModeValue('white', 'gray.800');
+  const navigate = useNavigate();
 
   const handleUpdateQuantity = (productId, currentQuantity, change) => {
     const newQuantity = currentQuantity + change;
@@ -99,6 +101,10 @@ const CartDrawer = ({ isOpen, onClose }) => {
               colorScheme="blue"
               width="100%"
               isDisabled={cart.length === 0}
+              onClick={() => {
+                navigate('/checkout'); // Navigate to checkout
+                onClose();
+              }}
             >
               Checkout
             </Button>

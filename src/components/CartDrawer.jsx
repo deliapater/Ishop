@@ -102,7 +102,7 @@ const CartDrawer = ({ isOpen, onClose }) => {
               width="100%"
               isDisabled={cart.length === 0}
               onClick={() => {
-                navigate('/checkout'); // Navigate to checkout
+                navigate('/checkout');
                 onClose();
               }}
             >

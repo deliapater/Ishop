@@ -21,8 +21,8 @@ const Checkout = () => {
   const handleCheckout = () => {
     // Here you can implement the logic to process the payment
     alert('Checkout process initiated!');
-    clearCart(); // Clear the cart after checkout
-    navigate('/'); // Redirect to home after checkout
+    clearCart();
+    navigate('/');
   };
 
   return (
